@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS files
+.DS_Store
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Project Secrets
+04.dev/secrets/
+*.ini
+!*.ini.example
+.env
+
+# Tool outputs
+.playwright-mcp/
+tool-outputs/

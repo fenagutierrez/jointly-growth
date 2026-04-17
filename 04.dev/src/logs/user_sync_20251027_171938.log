@@ -1,0 +1,55 @@
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - Starting user synchronization process
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - [overall] Starting user synchronization process - Progress: 0.0%
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - [overall] Fetching user and login data - Progress: 5.0%
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - Starting fetching user data
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - [fetching user data] Starting fetching user data - Progress: 0.0%
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - [fetch_user_data] Preparing user data query - Progress: 10.0%
+2025-10-27 17:19:38,532 - src.config.user_sync_config - INFO - [fetch_user_data] Executing database query - Progress: 30.0%
+2025-10-27 17:19:51,822 - src.config.user_sync_config - INFO - [fetch_user_data] Removing duplicate users - Progress: 70.0%
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - [fetch_user_data] Successfully fetched 13110 users - Progress: 100.0%
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - Completed fetching user data in 13.29s
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - [fetching user data] Completed fetching user data - Progress: 100.0%
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - [overall] User data fetched, now fetching login data - Progress: 10.0%
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - Starting fetching login data
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - [fetching login data] Starting fetching login data - Progress: 0.0%
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - [fetch_login_data] Preparing login data query - Progress: 10.0%
+2025-10-27 17:19:51,826 - src.config.user_sync_config - INFO - [fetch_login_data] Executing login data query - Progress: 50.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - [fetch_login_data] Successfully fetched 67175 login records - Progress: 100.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - Completed fetching login data in 11.43s
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - [fetching login data] Completed fetching login data - Progress: 100.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - [overall] Data fetching completed - Progress: 20.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - [overall] Processing and merging data - Progress: 20.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - Starting processing user data
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - [processing user data] Starting processing user data - Progress: 0.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - [process_user_data] Validating input data - Progress: 10.0%
+2025-10-27 17:20:03,253 - src.config.user_sync_config - INFO - Validating users data...
+2025-10-27 17:20:03,255 - src.config.user_sync_config - INFO - Data validation passed for users
+2025-10-27 17:20:03,255 - src.config.user_sync_config - INFO - Validating login data...
+2025-10-27 17:20:03,256 - src.config.user_sync_config - WARNING - High null percentage in id: 100.00%
+2025-10-27 17:20:03,258 - src.config.user_sync_config - WARNING - Found 67174 duplicate IDs in login
+2025-10-27 17:20:03,258 - src.config.user_sync_config - INFO - Data validation passed for login
+2025-10-27 17:20:03,258 - src.config.user_sync_config - INFO - [process_user_data] Filling missing values - Progress: 30.0%
+2025-10-27 17:20:03,259 - src.config.user_sync_config - INFO - [process_user_data] Converting partner IDs - Progress: 50.0%
+2025-10-27 17:20:03,263 - src.config.user_sync_config - INFO - [process_user_data] Processing login data - Progress: 70.0%
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - [process_user_data] Successfully processed 13110 user records - Progress: 100.0%
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - Completed processing user data in 0.06s
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - [processing user data] Completed processing user data - Progress: 100.0%
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - [overall] Data processing completed - Progress: 50.0%
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - [overall] Preparing Airtable records - Progress: 50.0%
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - Starting preparing Airtable records
+2025-10-27 17:20:03,316 - src.config.user_sync_config - INFO - [preparing Airtable records] Starting preparing Airtable records - Progress: 0.0%
+2025-10-27 17:20:03,645 - src.config.user_sync_config - INFO - [preparing Airtable records] Prepared 13110 records for Airtable - Progress: 100.0%
+2025-10-27 17:20:03,645 - src.config.user_sync_config - INFO - Completed preparing Airtable records in 0.33s
+2025-10-27 17:20:03,645 - src.config.user_sync_config - INFO - [preparing Airtable records] Completed preparing Airtable records - Progress: 100.0%
+2025-10-27 17:20:03,646 - src.config.user_sync_config - INFO - [overall] Syncing to Airtable - Progress: 60.0%
+2025-10-27 17:20:03,646 - src.config.user_sync_config - INFO - Starting syncing to Airtable
+2025-10-27 17:20:03,646 - src.config.user_sync_config - INFO - [syncing to Airtable] Starting syncing to Airtable - Progress: 0.0%
+2025-10-27 17:20:03,646 - src.config.user_sync_config - INFO - [sync_to_airtable] Getting Airtable configuration - Progress: 10.0%
+2025-10-27 17:20:03,647 - src.config.user_sync_config - INFO - [sync_to_airtable] Initializing Airtable API - Progress: 30.0%
+2025-10-27 17:20:03,648 - src.config.user_sync_config - INFO - [sync_to_airtable] Preparing records for upsert - Progress: 50.0%
+2025-10-27 17:20:03,650 - src.config.user_sync_config - INFO - [sync_to_airtable] Performing batch upsert of 13110 records - Progress: 70.0%
+2025-10-27 17:20:04,373 - src.config.user_sync_config - ERROR - Failed to sync to Airtable: ('422 Client Error: Unprocessable Entity for url: https://api.airtable.com/v0/appWPN1fLEOzhOpU8/users', "{'type': 'INVALID_VALUE_FOR_COLUMN', 'message': 'Cannot update more than one record for fields to merge on'}")
+2025-10-27 17:20:04,373 - src.config.user_sync_config - ERROR - Failed syncing to Airtable: ('422 Client Error: Unprocessable Entity for url: https://api.airtable.com/v0/appWPN1fLEOzhOpU8/users', "{'type': 'INVALID_VALUE_FOR_COLUMN', 'message': 'Cannot update more than one record for fields to merge on'}")
+2025-10-27 17:20:04,373 - src.config.user_sync_config - INFO - [syncing to Airtable] Failed syncing to Airtable: ('422 Client Error: Unprocessable Entity for url: https://api.airtable.com/v0/appWPN1fLEOzhOpU8/users', "{'type': 'INVALID_VALUE_FOR_COLUMN', 'message': 'Cannot update more than one record for fields to merge on'}") - Progress: 0.0%
+2025-10-27 17:20:04,374 - src.config.user_sync_config - ERROR - User synchronization process failed: ('422 Client Error: Unprocessable Entity for url: https://api.airtable.com/v0/appWPN1fLEOzhOpU8/users', "{'type': 'INVALID_VALUE_FOR_COLUMN', 'message': 'Cannot update more than one record for fields to merge on'}")
+2025-10-27 17:20:04,374 - src.config.user_sync_config - INFO - [overall] User synchronization process failed: ('422 Client Error: Unprocessable Entity for url: https://api.airtable.com/v0/appWPN1fLEOzhOpU8/users', "{'type': 'INVALID_VALUE_FOR_COLUMN', 'message': 'Cannot update more than one record for fields to merge on'}") - Progress: 0.0%

@@ -1,0 +1,22 @@
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - Starting user synchronization process
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - [overall] Starting user synchronization process - Progress: 0.0%
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - [overall] Fetching user and login data - Progress: 5.0%
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - Starting fetching user data
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - [fetching user data] Starting fetching user data - Progress: 0.0%
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - [fetch_user_data] Preparing user data query - Progress: 10.0%
+2025-10-31 12:14:00,918 - src.config.user_sync_config - INFO - [fetch_user_data] Executing database query - Progress: 30.0%
+2025-10-31 12:15:15,947 - src.config.user_sync_config - ERROR - Failed to fetch user data: Database error: connection to server at "tmp-prod.cluster-c6v1hij4pjqz.us-east-1.rds.amazonaws.com" (10.0.4.153), port 5432 failed: Operation timed out
+	Is the server running on that host and accepting TCP/IP connections?
+
+2025-10-31 12:15:15,947 - src.config.user_sync_config - ERROR - Failed fetching user data: Database error: connection to server at "tmp-prod.cluster-c6v1hij4pjqz.us-east-1.rds.amazonaws.com" (10.0.4.153), port 5432 failed: Operation timed out
+	Is the server running on that host and accepting TCP/IP connections?
+
+2025-10-31 12:15:15,948 - src.config.user_sync_config - INFO - [fetching user data] Failed fetching user data: Database error: connection to server at "tmp-prod.cluster-c6v1hij4pjqz.us-east-1.rds.amazonaws.com" (10.0.4.153), port 5432 failed: Operation timed out
+	Is the server running on that host and accepting TCP/IP connections?
+ - Progress: 0.0%
+2025-10-31 12:15:15,948 - src.config.user_sync_config - ERROR - User synchronization process failed: Database error: connection to server at "tmp-prod.cluster-c6v1hij4pjqz.us-east-1.rds.amazonaws.com" (10.0.4.153), port 5432 failed: Operation timed out
+	Is the server running on that host and accepting TCP/IP connections?
+
+2025-10-31 12:15:15,948 - src.config.user_sync_config - INFO - [overall] User synchronization process failed: Database error: connection to server at "tmp-prod.cluster-c6v1hij4pjqz.us-east-1.rds.amazonaws.com" (10.0.4.153), port 5432 failed: Operation timed out
+	Is the server running on that host and accepting TCP/IP connections?
+ - Progress: 0.0%

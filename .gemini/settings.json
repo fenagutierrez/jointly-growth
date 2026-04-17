@@ -1,0 +1,37 @@
+{
+    "ide": {
+        "enabled": true
+    },
+    "mcpServers": {
+        "mcpPlaywright": {
+            "command": "npx",
+            "args": [
+                "@playwright/mcp@latest"
+            ]
+        },
+        "hubspot": {
+            "httpUrl": "https://mcp.hubspot.com",
+            "oauth": {
+                "clientId": "3f11959f-e8fb-43fa-ac02-c478a10ea340",
+                "clientSecret": "48a1bb94-23be-4133-ae24-7effbbb505da",
+                "redirectUri": "http://localhost:56168/oauth/callback"
+            }
+        }
+    },
+    "security": {
+        "auth": {
+            "selectedType": "oauth-personal"
+        }
+    },
+    "experimental": {
+        "enableAgents": false
+    },
+    "general": {
+        "plan": {
+            "enabled": true
+        }
+    },
+    "agents": {
+        "overrides": {}
+    }
+}
