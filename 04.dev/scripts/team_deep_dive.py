@@ -18,7 +18,16 @@ project_root = current_dir.parent.absolute()
 sys.path.insert(0, str(project_root))
 
 from src.data.db_conn import load_db_table
-from src.utils.pricing import calculate_jointly_business_mrr
+from src.data.sql_queries import get_mls_roster_production_query
+from src.utils.entity_input import load_entity_input, merge_entity_input
+from src.utils.output import (
+    build_analysis_payload,
+    build_entity_metadata,
+    print_analysis_summary,
+    print_json_payload,
+)
+from src.utils.production_analysis import analyze_roster_production
+from src.utils.roster import normalize_license_list, normalize_roster
 
 def get_production_data(agent_licenses: List[str], config_db: str = "janet.ini") -> pd.DataFrame:
     """Queries production data for the last 12 months for a list of licenses."""
@@ -26,183 +35,35 @@ def get_production_data(agent_licenses: List[str], config_db: str = "janet.ini")
         return pd.DataFrame()
     
     # Clean licenses
-    cleaned = []
-    for lic in agent_licenses:
-        c = ''.join(filter(str.isdigit, str(lic))).lstrip('0')
-        if c:
-            cleaned.append(f"'{c}'")
+    cleaned = [f"'{lic}'" for lic in normalize_license_list(agent_licenses)]
             
     if not cleaned:
         return pd.DataFrame()
             
     licenses_str = ", ".join(cleaned)
     
-    query = f"""
-    WITH BaseProperties AS (
-        SELECT
-            p.list_agent_full_name AS la_name,
-            COALESCE(p.listing_agent_email, la.listing_agent_email) AS la_email,
-            COALESCE(
-                NULLIF(LTRIM(REGEXP_REPLACE(p.listing_agent_state_license, '[^0-9]', '', 'g'), '0'), ''),
-                NULLIF(LTRIM(REGEXP_REPLACE(la.mls_id, '[^0-9]', '', 'g'), '0'), '')
-            ) AS la_license_number,
-            p.buyer_agent_full_name AS ba_name,
-            COALESCE(p.buyer_agent_email, ba.listing_agent_email) AS ba_email,
-            COALESCE(
-                NULLIF(LTRIM(REGEXP_REPLACE(p.buyer_agent_state_license, '[^0-9]', '', 'g'), '0'), ''),
-                NULLIF(LTRIM(REGEXP_REPLACE(ba.mls_id, '[^0-9]', '', 'g'), '0'), '')
-            ) AS ba_license_number,
-            p.list_price / 100.0 AS list_price,
-            p.close_price / 100.0 AS close_price,
-            p.property_type,
-            p.close_date,
-            p.address
-        FROM mls.property p
-        LEFT JOIN mls."member" la
-            ON p.mls_definition_id = la.mls_definition_id
-        AND p.list_agent_mls_id = la.mls_id
-        LEFT JOIN mls."member" ba
-            ON p.mls_definition_id = ba.mls_definition_id
-        AND p.buyer_agent_mls_id = ba.mls_id
-        WHERE p.close_date >= CURRENT_DATE - INTERVAL '12 months'
-    ),
-    Sides AS (
-        SELECT
-            la_license_number AS agent_license,
-            'listing' AS side,
-            list_price,
-            close_price,
-            property_type,
-            close_date,
-            address,
-            la_name AS agent_name,
-            la_email AS agent_email
-        FROM BaseProperties
-        WHERE la_license_number IN ({licenses_str})
-
-        UNION ALL
-
-        SELECT
-            ba_license_number AS agent_license,
-            'buyer' AS side,
-            list_price,
-            close_price,
-            property_type,
-            close_date,
-            address,
-            ba_name AS agent_name,
-            ba_email AS agent_email
-        FROM BaseProperties
-        WHERE ba_license_number IN ({licenses_str})
-    )
-    SELECT *
-    FROM Sides
-    """
-    
+    query = get_mls_roster_production_query(licenses_str)
     return load_db_table(config_db, query)
 
 def process_production(df: pd.DataFrame, roster: Dict[str, str]) -> Dict[str, Any]:
     """Calculates GCI, Top Producers, Revenue Shares, and MRR potential."""
-    if not roster:
-        return {}
-    
-    seat_count = len(roster)
-    mrr = calculate_jointly_business_mrr(seat_count)
-            
-    if df.empty:
-        return {
-            "summary": {
-                "total_sides": 0,
-                "seat_count": seat_count,
-                "mrr_potential": mrr,
-                "sales_sides": 0,
-                "lease_sides": 0,
-                "sales_gci": 0.0,
-                "leases_gci": 0.0,
-                "total_gci": 0.0,
-                "distribution": {
-                    "sales": {"buyer": 0, "listing": 0},
-                    "leases": {"tenant": 0, "listing": 0}
-                }
-            },
-            "revenue_share": {"lease_application": 0.0, "concierge": 0.0, "total": 0.0},
-            "top_producers": {"sales": [], "leases": []}
-        }
-    
-    # Identify Sales vs Leases
-    lease_mask = df['property_type'].str.contains('Lease', case=False, na=False) | \
-                 df['property_type'].isin(['RR', 'RL'])
-    
-    sales_df = df[~lease_mask]
-    leases_df = df[lease_mask]
-    
-    # GCI Calculations
-    sales_gci = (sales_df['close_price'] * 0.03).sum()
-    leases_gci = (leases_df['close_price'] * 0.50).sum()
-    
-    # Side Distributions
-    buyer_sides = len(sales_df[sales_df['side'] == 'buyer'])
-    listing_sides = len(sales_df[sales_df['side'] == 'listing'])
-    tenant_sides = len(leases_df[leases_df['side'] == 'buyer']) 
-    lease_listing_sides = len(leases_df[leases_df['side'] == 'listing'])
-    
-    # Revenue Shares
-    lease_app_share = lease_listing_sides * 28
-    concierge_share = (buyer_sides + tenant_sides) * 0.30 * 42
-    
-    # Top Producers
-    def get_top_5(data_df):
-        if data_df.empty:
-            return []
-        agent_stats = data_df.groupby('agent_license').agg({
-            'close_price': ['count', 'sum']
-        })
-        agent_stats.columns = ['units', 'volume']
-        agent_stats = agent_stats.sort_values(by='units', ascending=False).head(5)
-        
-        top_list = []
-        for lic, row in agent_stats.iterrows():
-            name = roster.get(str(lic), f"Unknown ({lic})")
-            top_list.append({
-                "name": name,
-                "license": lic,
-                "units": int(row['units']),
-                "volume": float(row['volume'])
-            })
-        return top_list
-
-    return {
-        "summary": {
-            "total_sides": len(df),
-            "seat_count": seat_count,
-            "mrr_potential": mrr,
-            "sales_sides": len(sales_df),
-            "lease_sides": len(leases_df),
-            "sales_gci": float(sales_gci),
-            "leases_gci": float(leases_gci),
-            "total_gci": float(sales_gci + leases_gci),
-            "distribution": {
-                "sales": {"buyer": buyer_sides, "listing": listing_sides},
-                "leases": {"tenant": tenant_sides, "listing": lease_listing_sides}
-            }
-        },
-        "revenue_share": {
-            "lease_application": float(lease_app_share),
-            "concierge": float(concierge_share),
-            "total": float(lease_app_share + concierge_share)
-        },
-        "top_producers": {
-            "sales": get_top_5(sales_df),
-            "leases": get_top_5(leases_df)
-        }
-    }
+    return analyze_roster_production(df, roster)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Analyze team production based on agent licenses.")
     parser.add_argument("--licenses", type=str, help="Comma-separated list of agent licenses.")
     parser.add_argument("--roster_file", type=str, help="Path to a JSON file containing {license: name} mapping.")
+    parser.add_argument("--entity-file", type=str, help="Path to a JSON file containing team metadata.")
+    parser.add_argument("--team-name", type=str, help="Team name.")
+    parser.add_argument("--team-lead-name", type=str, help="Primary team lead name.")
+    parser.add_argument("--team-lead-license", type=str, help="Primary team lead license.")
+    parser.add_argument("--website", type=str, help="Official team website.")
+    parser.add_argument("--brokerage-affiliation", type=str, help="Brokerage affiliation.")
+    parser.add_argument("--brand-name", dest="brand_names", action="append", default=None, help="Brand or DBA name. Repeatable.")
+    parser.add_argument("--source", type=str, help="Metadata source label.")
     parser.add_argument("--config", type=str, default="janet.ini", help="Database config file.")
+    parser.add_argument("--json", action="store_true", help="Print machine-readable JSON output.")
     
     args = parser.parse_args()
     
@@ -219,6 +80,20 @@ def main():
         print("Error: Either --licenses or --roster_file must be provided.")
         sys.exit(1)
 
+    roster, roster_warnings = normalize_roster(roster)
+    entity_file_data = load_entity_input(args.entity_file)
+    entity_input = merge_entity_input(
+        entity_file_data,
+        {
+            "team_name": args.team_name,
+            "team_lead_name": args.team_lead_name,
+            "team_lead_license": args.team_lead_license,
+            "website": args.website,
+            "brokerage_affiliation": args.brokerage_affiliation,
+            "brand_names": args.brand_names,
+            "source": args.source,
+        },
+    )
     print(f"--- Analyzing Team Production for {len(roster)} Seats ---")
     
     licenses = list(roster.keys())
@@ -230,34 +105,31 @@ def main():
         print("No production data found for these licenses.")
         return
 
-    print("\n" + "="*40)
-    print("TEAM GROWTH PROFILE SUMMARY")
-    print("="*40)
-    s = analysis['summary']
-    print(f"Roster Size: {s['seat_count']} analyzed seats")
-    print(f"Total Sides: {s['total_sides']}")
-    print(f"Sales: {s['sales_sides']} sides ({s['distribution']['sales']['buyer']} Buyer / {s['distribution']['sales']['listing']} Listing) | GCI: ${s['sales_gci']:,.2f}")
-    print(f"Leases: {s['lease_sides']} sides ({s['distribution']['leases']['tenant']} Tenant / {s['distribution']['leases']['listing']} Listing) | GCI: ${s['leases_gci']:,.2f}")
-    print(f"Total Estimated Team GCI: ${s['total_gci']:,.2f}")
-    
-    print(f"\n--- Platform Revenue Potential ---")
-    print(f"Estimated Monthly Subscription (MRR): ${s['mrr_potential']:,.2f}")
-    
-    print("\n--- Potential Jointly Revenue Share ---")
-    rs = analysis['revenue_share']
-    print(f"Lease Application Share: ${rs['lease_application']:,.2f}")
-    print(f"Concierge Share: ${rs['concierge']:,.2f}")
-    print(f"Total Share Opportunity: ${rs['total']:,.2f}")
-    
-    print("\n--- Top 5 Sales Producers ---")
-    for i, p in enumerate(analysis['top_producers']['sales'], 1):
-        print(f"{i}. {p['name']} ({p['license']}): {p['units']} units (${p['volume']:,.2f})")
-        
-    print("\n--- Top 5 Lease Producers ---")
-    for i, p in enumerate(analysis['top_producers']['leases'], 1):
-        print(f"{i}. {p['name']} ({p['license']}): {p['units']} units (${p['volume']:,.2f})")
-    
-    print("="*40)
+    payload = build_analysis_payload(
+        entity_type="team",
+        entity_name=entity_input.get("team_name", "Team Roster Analysis"),
+        roster=roster,
+        analysis=analysis,
+        warnings=roster_warnings,
+        metadata=build_entity_metadata(
+            entity_id=entity_input.get("team_lead_license"),
+            entity_type="team",
+            primary_contact_name=entity_input.get("team_lead_name"),
+            primary_license=entity_input.get("team_lead_license"),
+            website=entity_input.get("website"),
+            brand_names=entity_input.get("brand_names", []),
+            brokerage_affiliation=entity_input.get("brokerage_affiliation"),
+            source=entity_input.get("source", "manual_roster_input"),
+            config=args.config,
+            extra={"team_name": entity_input.get("team_name")},
+        ),
+    )
+
+    if args.json:
+        print_json_payload(payload)
+        return
+
+    print_analysis_summary("TEAM GROWTH PROFILE SUMMARY", payload, "Team")
 
 if __name__ == "__main__":
     main()

@@ -38,6 +38,21 @@ Once the roster and licenses are identified, execute automated intelligence gath
 - **Lead Generation Sources:** Identify how they generate volume:
     - **Zillow/Realtor.com:** High-spend teams are prime candidates for Jointly.
     - **PPC/Google Ads:** Note heavy digital marketing presence.
+- **Social Media Audit:** Treat social as a required workflow, not a quick stats check.
+    - **Step 1: Website-Linked Accounts First:** Start with outbound social links from the official website footer, header, agent pages, and contact pages. These are the fastest way to confirm official accounts.
+    - **Step 2: Cross-Platform Confirmation:** If one platform links to another official handle (for example, Facebook linking to Instagram), use that to verify the account chain before relying on general web search.
+    - **Step 3: Web Search as Fallback:** If a platform is not linked on the website or a confirmed social account, then search the web for the official team presence.
+    - **Step 4: Live Rendered Verification:** You MUST inspect `Instagram`, `LinkedIn`, `Facebook`, and `YouTube` in a live rendered browser when possible. Static page fetches are often insufficient for Facebook and Instagram.
+    - **Platform Presence:** Confirm which official accounts exist and link them in the profile.
+    - **Posting Cadence:** Record whether the account is active in the last 30/90 days and estimate posting frequency.
+    - **Audience Size:** Capture follower/subscriber counts when publicly visible.
+    - **Content Mix Classification:** Review at least the last `9-12` visible posts and classify the dominant content types: listings, just sold / deal wins, price changes, recruiting / onboarding, agent recognition, market education, legal / compliance education, culture, client testimonials, local/community content, investor content, luxury branding, broker prestige / awards, or team wins.
+    - **Primary CTA:** Note the main call to action used in bio/posts: website form, DM, phone call, home-search link, recruiting form, or lead magnet.
+    - **Video Maturity:** Identify whether the brand uses reels/short-form video, listing walkthroughs, market updates, podcast clips, or long-form YouTube education.
+    - **Paid-Growth Signals:** Note signs of boosted posts, lead-form campaigns, Meta Ad Library activity, or heavy sponsored listing promotion when visible.
+    - **Brand Ownership:** Determine whether content appears centrally managed by the team, led by the rainmaker, or fragmented across individual agents.
+    - **Operational Signal:** Record whether the social presence suggests a polished marketing engine, agent-by-agent DIY marketing, or an inconsistent / low-maintenance digital brand.
+    - **Business-Model Interpretation:** Do not stop at follower counts. Explain what the content mix suggests about the team itself: consumer lead-gen team, recruiting-heavy expansion team, rainmaker-led authority brand, investor-focused operation, luxury-focused brand, or a hybrid model.
 - **Form Usage & Friction:**
     - Do they offer digital disclosures or use static PDFs?
     - Is there a "Join Our Team" or "Recruiting" page?

@@ -1,7 +1,7 @@
 # [TEAM NAME]
 **Last Research Update:** YYYY-MM-DD
 
-## Team Profile Summary
+## Entity Summary
 - **Primary Team Lead:** [Name] ([TREC License #])
 - **Brokerage Affiliation:** [Company Name] ([License #])
 - **Network/Franchise:** [e.g., KW, RE/MAX, Compass]
@@ -9,8 +9,25 @@
 - **Primary Service Location:** [Primary City/Suburbs]
 - **Website:** [Link]
 
+## Roster & Pricing
+- **Roster Size (Verified):** [Agent Count] (Verified via [Source])
+- **Estimated Monthly Revenue (Jointly Business):** $[MRR]
+
 ## Research Notes
-- [ ] Roster Size (Verified): [Agent Count] (Verified via [Source])
+- [ ] Social Media Audit:
+    - **Website-Linked Accounts:** [List which accounts are linked from the official site]
+    - **Facebook:** [Link] ([Follower/like data], cadence, visible themes)
+    - **Instagram:** [Link] ([Follower data], cadence, visible themes)
+    - **LinkedIn:** [Link] (official team page and/or rainmaker-led profile context)
+    - **YouTube:** [Link] (channel status, format, activity)
+    - **X (Twitter):** [Link] (if relevant)
+    - **Content Mix Classification:** [Listings, just sold / wins, price changes, recruiting, agent recognition, market education, legal / compliance education, community, testimonials, luxury, investor, broker prestige, etc.]
+    - **Primary CTA:** [DM, website form, phone call, home search, recruiting form, lead magnet]
+    - **Video Maturity:** [Reels/short-form, walkthroughs, market updates, podcast clips, long-form education]
+    - **Paid-Growth Signals:** [Meta ads, boosted posts, sponsored listings, unknown]
+    - **Brand Ownership:** [Centrally managed by team, rainmaker-led, or fragmented by agent]
+    - **Operational Signal:** [Polished marketing engine, agent-by-agent DIY, inconsistent/low-maintenance]
+    - **Business-Model Interpretation:** [What the content mix suggests about the team type and GTM motion]
 - [ ] Tech Stack Audit:
     - **CRM:** [e.g., Chime, Follow Up Boss, KVCore]
     - **Transaction Management:** [e.g., DocuSign, Dotloop, SkySlope]
@@ -27,7 +44,7 @@
 - **Lease Volume (Tenant/Listing):** [Total Lease] sides ([A] Tenant / [B] Listing)
 - **Estimated Total Sales GCI:** $[Amount]
 - **Estimated Total Lease GCI:** $[Amount]
-- **Estimated Monthly Revenue (Jointly Business):** $[MRR]
+- **Estimated Total Team GCI:** $[Amount]
 
 ### Potential Jointly Revenue Share
 - **Lease Application Share:** $[Amount]

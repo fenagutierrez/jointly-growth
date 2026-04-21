@@ -1,7 +1,7 @@
 # [BROKERAGE NAME]
 **Last Research Update:** YYYY-MM-DD
 
-## Broker Company Profile
+## Entity Summary
 - **Company Name:** 
 - **License Type:** 
 - **License Number:** 
@@ -9,19 +9,27 @@
 - **Original License Date:** 
 - **License Expiration Date:** 
 - **Designated Broker:** [Name] ([License #])
+- **Website:** [Link]
 
-## Sales Force
+## Roster & Pricing
 - **Total Active Sales Agents ([Current Month] 2026):** 
 - **Estimated Monthly Revenue (Jointly Business):** $[MRR]
 
 ## Research Notes
-- [ ] Website: [Link]
 - [ ] Social Media Audit:
-    - **LinkedIn:** [Link] (Context)
-    - **YouTube:** [Link] (Context)
-    - **Facebook:** [Link] (Context)
-    - **Instagram:** [Link] (Context)
-    - **X (Twitter):** [Link] (Context)
+    - **Website-Linked Accounts:** [List which accounts are linked from the official site]
+    - **Facebook:** [Link] ([Follower/like data], cadence, visible themes)
+    - **Instagram:** [Link] ([Follower data], cadence, visible themes)
+    - **LinkedIn:** [Link] (official company page and/or broker-led profile context)
+    - **YouTube:** [Link] (channel status, format, activity)
+    - **X (Twitter):** [Link] (if relevant)
+    - **Content Mix Classification:** [Listings, just sold / wins, price changes, recruiting, agent recognition, market education, legal / compliance education, community, testimonials, luxury, investor, broker prestige, etc.]
+    - **Primary CTA:** [DM, website form, phone call, home search, recruiting form, lead magnet]
+    - **Video Maturity:** [Reels/short-form, walkthroughs, market updates, podcast clips, long-form education]
+    - **Paid-Growth Signals:** [Meta ads, boosted posts, sponsored listings, unknown]
+    - **Brand Ownership:** [Centrally managed by brokerage, broker-led, or fragmented by agent]
+    - **Operational Signal:** [Polished marketing engine, agent-by-agent DIY, inconsistent/low-maintenance]
+    - **Business-Model Interpretation:** [What the content mix suggests about the brokerage type and GTM motion]
 - [ ] Key Contacts & Leadership:
     - **[Name]:** [Title] ([Source])
 - [ ] Specialties: 
@@ -64,7 +72,7 @@
 - **Pain Point Alignment:** 
 - **Sales Motion Recommendation:**
 
-## Key Personnel
+## Contact Information (Verified)
 - **[Name]:** [Title] - [Short Bio/Context from LinkedIn or Website]. [LinkedIn Link]
 - **[Name]:** [Title] - [Short Bio/Context from LinkedIn or Website]. [LinkedIn Link]
 - **[Name]:** [Title] - [Short Bio/Context from LinkedIn or Website]. [LinkedIn Link] 

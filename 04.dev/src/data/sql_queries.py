@@ -2,6 +2,79 @@
 Reusable SQL queries for data analysis.
 """
 
+
+def get_mls_roster_production_query(licenses_str: str) -> str:
+    """
+    Returns the shared MLS production query used by deep-dive scripts.
+    """
+    return f"""
+    WITH BaseProperties AS (
+        SELECT
+            p.mls_definition_id,
+            p.listing_id,
+            p.list_agent_full_name AS la_name,
+            COALESCE(p.listing_agent_email, la.listing_agent_email) AS la_email,
+            COALESCE(
+                NULLIF(LTRIM(REGEXP_REPLACE(p.listing_agent_state_license, '[^0-9]', '', 'g'), '0'), ''),
+                NULLIF(LTRIM(REGEXP_REPLACE(la.mls_id, '[^0-9]', '', 'g'), '0'), '')
+            ) AS la_license_number,
+            p.buyer_agent_full_name AS ba_name,
+            COALESCE(p.buyer_agent_email, ba.listing_agent_email) AS ba_email,
+            COALESCE(
+                NULLIF(LTRIM(REGEXP_REPLACE(p.buyer_agent_state_license, '[^0-9]', '', 'g'), '0'), ''),
+                NULLIF(LTRIM(REGEXP_REPLACE(ba.mls_id, '[^0-9]', '', 'g'), '0'), '')
+            ) AS ba_license_number,
+            p.list_price / 100.0 AS list_price,
+            p.close_price / 100.0 AS close_price,
+            p.property_type,
+            p.close_date,
+            p.address
+        FROM mls.property p
+        LEFT JOIN mls."member" la
+            ON p.mls_definition_id = la.mls_definition_id
+        AND p.list_agent_mls_id = la.mls_id
+        LEFT JOIN mls."member" ba
+            ON p.mls_definition_id = ba.mls_definition_id
+        AND p.buyer_agent_mls_id = ba.mls_id
+        WHERE p.close_date >= CURRENT_DATE - INTERVAL '12 months'
+    ),
+    Sides AS (
+        SELECT
+            la_license_number AS agent_license,
+            mls_definition_id,
+            listing_id,
+            'listing' AS side,
+            list_price,
+            close_price,
+            property_type,
+            close_date,
+            address,
+            la_name AS agent_name,
+            la_email AS agent_email
+        FROM BaseProperties
+        WHERE la_license_number IN ({licenses_str})
+
+        UNION ALL
+
+        SELECT
+            ba_license_number AS agent_license,
+            mls_definition_id,
+            listing_id,
+            'buyer' AS side,
+            list_price,
+            close_price,
+            property_type,
+            close_date,
+            address,
+            ba_name AS agent_name,
+            ba_email AS agent_email
+        FROM BaseProperties
+        WHERE ba_license_number IN ({licenses_str})
+    )
+    SELECT *
+    FROM Sides
+    """
+
 def get_client_offer_query(client_type: str, interval_days: int) -> str:
     """
     Returns a SQL query for getting offer data based on client type and time interval.
