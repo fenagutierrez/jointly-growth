@@ -52,37 +52,33 @@ def get_agent_contacts(licenses=None, names=None, config_db="janet.ini"):
     return load_db_table(config_db, query)
 
 if __name__ == "__main__":
-    # Target Lists for M. Stagers & Partners Realty LLC
+    # Target Lists for Kelly Simon Properties
     target_lics = [
-        "435856", # MELISSA STAGERS (Broker/Owner)
-        "515473", # ARA LONG FESPERMAN (Broker Associate)
-        "741134", # DANA C. DANNELLY (Top Sales)
-        "561284", # KERRY R DIKE (Top Sales)
-        "759130", # ANIZA OZELLE LOPEZ (Top Sales/Lease)
-        "630958", # SARA ELIZABETH RYAN (Top Sales)
-        "681079", # KIMBERLY REED (Top Sales)
-        "729796", # SETH BURNS (Top Lease)
-        "584316", # JESSICA STAGERS (Management)
-        "727094"  # RACHEL ALMANZAR (Top Producer/Management)
+        "572128", # Kelly Simon
+        "772108", # Veronica Miller
+        "637294", # Jennifer Vickers
+        "671546", # Erin Dominy
+        "650360", # Lauren Neely
+        "823549", # Trace Brown
+        "670411", # Shelly Thomas
+        "522332", # Larissa McGinnis
+        "779326"  # Lindsey Jahns
     ]
 
     target_names = [
-        "MELISSA STAGERS",
-        "MISSY STAGERS",
-        "ARA FESPERMAN",
-        "ADDIE LANGEHENNIG",
-        "COURTNEY MORENO",
-        "JESSICA PINON",
-        "JESSICA STAGERS",
-        "DANNY MARTINEZ",
-        "DANA DANNELLY",
-        "KERRY DIKE",
-        "ANIZA LOPEZ",
-        "SARA RYAN",
-        "LIBBY RYAN",
-        "KIMBERLY REED",
-        "SETH BURNS",
-        "RACHEL ALMANZAR"
+        "Kelly Simon",
+        "Veronica Miller",
+        "Jennifer Vickers",
+        "Erin Dominy",
+        "Lauren Neely",
+        "Trace Brown",
+        "Shelly Thomas",
+        "Larissa McGinnis",
+        "Lindsey Jahns",
+        "Carrie Teague",
+        "Amy Klein",
+        "Denise Thompson",
+        "Julie Harrison"
     ]
     
     print("Fetching contact information...")
